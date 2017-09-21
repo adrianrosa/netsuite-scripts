@@ -44,14 +44,14 @@ function getColumns(columnsObj){
 	var columns = new Array(),
 	    column = null;
 
-	for(var index in columnsObj){
+	for (var index in columnsObj) {
 	
 		column = new nlobjSearchColumn(columnsObj[index].fldName, columnsObj[index].fldJoin, columnsObj[index].summary);
 
-		if(columnsObj[index].formula)
+		if (columnsObj[index].formula)
 			column.setFormula(columnsObj[index].formula);
 
-		if(columnsObj[index].sort)
+		if (columnsObj[index].sort)
 			column.setSort(columnsObj[index].sort);
 
 		columns.push(column);		
@@ -69,11 +69,11 @@ function getFilters(filtersObj){
 	var filters = new Array(),
         filter = null;
 
-	for(var index in filtersObj){
+	for (var index in filtersObj) {
 	
 		filter = new nlobjSearchFilter(filtersObj[index].fldName, filtersObj[index].fldJoin, filtersObj[index].operator, filtersObj[index].fldValue, filtersObj[index].fldValue2)
 
-        if(filtersObj[index].formula)
+        if (filtersObj[index].formula)
             filter.setFormula(filtersObj[index].formula);
 
         filters.push(filter);
@@ -91,10 +91,12 @@ function getFilters(filtersObj){
 function getObjectResult(obj, columns, columnsNS){
     
    var objResult = {};
+   var index = '';
 
-   for(var i = 0; i < columns.length; i++){
-   
-      objResult[columns[i].display] = obj.getValue(columnsNS[i]);
+   for (var i = 0; i < columns.length; i++) {
+
+      index = columns[i].display ? columns[i].display : columns[i].fldName;
+      objResult[index] = obj.getValue(columnsNS[i]);
    }
 
    return objResult;

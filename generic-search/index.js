@@ -1,3 +1,6 @@
+// Search Employees  -------------------------------------------------------------------------------------------------------------------------------
+var limit = 10;
+
 var filters = [
                 {fldName: 'isinactive', fldJoin: null, operator: 'is', fldValue: 'F', fldValue2: null, formula: null}, 
                 {fldName: 'fax', fldJoin: null, operator: 'isempty', fldValue: null, fldValue2: null, formula: null},
@@ -12,6 +15,30 @@ var columns = [
                 {fldName: 'formulatext', fldJoin: null, summary: null, formula: 'LENGTH({entityid})', sort: false, display: 'lengthName'}
               ];
 
-var results = executeSearch('employee', filters, columns, 10);
+var results = executeSearch('employee', filters, columns, limit);
 
 console.log(results);
+// --------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Search Sales Orders ------------------------------------------------------------------------------------------------------------------------------
+var limit2 = 20;
+var offset2 = 20;
+
+var filters2 = [
+                {fldName: 'subsidiary', fldJoin: null, operator: 'is', fldValue: 2, fldValue2: null, formula: null},
+                {fldName: 'mainline', fldJoin: null, operator: 'is', fldValue: 'T', fldValue2: null, formula: null}
+               ];
+
+var columns2 = [
+                {fldName: 'internalid', fldJoin: null, summary: null, formula: null, sort: true, display: 'id'},
+                {fldName: 'tranid', fldJoin: null, summary: null, formula: null, sort: false, display: 'nroNS'},
+                {fldName: 'trandate', fldJoin: null, summary: null, formula: null, sort: true, display: 'date'},
+                {fldName: 'firstname', fldJoin: 'customer', summary: null, formula: null, sort: false, display: 'customer_firstname'},
+                {fldName: 'lastname', fldJoin: 'customer', summary: null, formula: null, sort: false, display: 'customer_lastname'},
+                {fldName: 'email', fldJoin: 'customer', summary: null, formula: null, sort: false, display: 'customer_email'}
+              ];
+
+var results2 = executeSearch('salesorder', filters2, columns2, limit2, offset2);
+
+console.log(results2);
+// --------------------------------------------------------------------------------------------------------------------------------------------------
