@@ -1,5 +1,6 @@
 // Search Employees  -------------------------------------------------------------------------------------------------------------------------------
-var limit = 10;
+var recordsPerPage = 10;
+var page = 1;
 
 var filters = [
                 {fldName: 'isinactive', fldJoin: null, operator: 'is', fldValue: 'F', fldValue2: null, formula: null}, 
@@ -15,14 +16,14 @@ var columns = [
                 {fldName: 'formulatext', fldJoin: null, summary: null, formula: 'LENGTH({entityid})', sort: false, display: 'lengthName'}
               ];
 
-var results = executeSearch('employee', filters, columns, limit);
+var results = executeSearch('employee', filters, columns, recordsPerPage, page);
 
 console.log(results);
 // --------------------------------------------------------------------------------------------------------------------------------------------------
 
 // Search Sales Orders ------------------------------------------------------------------------------------------------------------------------------
-var limit2 = 20;
-var offset2 = 20;
+var recordsPerPage2 = 20;
+var page2 = 2;
 
 var filters2 = [
                 {fldName: 'subsidiary', fldJoin: null, operator: 'is', fldValue: 2, fldValue2: null, formula: null},
@@ -38,7 +39,7 @@ var columns2 = [
                 {fldName: 'email', fldJoin: 'customer', summary: null, formula: null, sort: false, display: 'customer_email'}
               ];
 
-var results2 = executeSearch('salesorder', filters2, columns2, limit2, offset2);
+var results2 = executeSearch('salesorder', filters2, columns2, recordsPerPage2, page2);
 
 console.log(results2);
 // --------------------------------------------------------------------------------------------------------------------------------------------------
