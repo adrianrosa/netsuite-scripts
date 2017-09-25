@@ -3,18 +3,18 @@
  * @param {string} recordType: type of the record to search
  * @param {array} filtersObj: array of objects with filters
  * @param {array} columnsObj: array of objects with columns
- * @param {int} limit: by default is 1000
- * @param {int} offset: by default is 0
+ * @param {int} recordsPerPage: the max value allowed is 1000.
+ * @param {int} page: the min value allowed is 0.
  * @returns {array}
 */
-function executeSearch(recordType, filtersObj, columnsObj, limit, offset){
+function executeSearch(recordType, filtersObj, columnsObj, recordsPerPage, page){
 
     var filters = getFilters(filtersObj);
     var columns = getColumns(columnsObj);
     var search = nlapiCreateSearch(recordType, filters, columns);
     var resultset = search.runSearch();
-    var searchid = offset ? offset : 0;
-    var searchLimit = (limit && limit < 1000) ? (limit + searchid) : 1000;
+    var searchid = (page >= 0) ? recordsPerPage*(page-1) : 0;
+    var searchLimit = (recordsPerPage >= 0 && recordsPerPage <= 1000) ? (recordsPerPage + searchid) : 1000;
     var dataResult = [];
 
     do {
