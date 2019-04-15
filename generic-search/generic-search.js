@@ -1,3 +1,11 @@
+/* Entry point for RESTLet script
+* @param {object} datain: object with body data
+* @returns {array}
+*/
+function init(datain) {
+    return executeSearch(datain.recordType, datain.filtersObj, datain.columnsObj, datain.recordsPerPage, datain.page);
+}
+
 /* Search pagination with limit and offset for any record.
  * The result data will be returned into an array of objects. The properties from each object will be determined by the param 'columnsObj'.
  * @param {string} recordType: type of the record to search
@@ -13,7 +21,7 @@ function executeSearch(recordType, filtersObj, columnsObj, recordsPerPage, page)
     var columns = getColumns(columnsObj);
     var search = nlapiCreateSearch(recordType, filters, columns);
     var resultset = search.runSearch();
-    var searchid = (page >= 0) ? recordsPerPage*(page-1) : 0;
+    var searchid = (page > 0) ? recordsPerPage*(page-1) : 0;
     var searchLimit = (recordsPerPage >= 0 && recordsPerPage <= 1000) ? (recordsPerPage + searchid) : 1000;
     var dataResult = [];
 
@@ -21,6 +29,10 @@ function executeSearch(recordType, filtersObj, columnsObj, recordsPerPage, page)
 
         var resultslice = resultset.getResults(searchid, searchLimit);
 
+	if (resultslice.length == 0) {
+            break;
+        }
+ 
         for (var rs in resultslice) {
 
             dataResult.push(getObjectResult(resultslice[rs], columnsObj, columns));
@@ -51,8 +63,12 @@ function getColumns(columnsObj){
 		if (columnsObj[index].formula)
 			column.setFormula(columnsObj[index].formula);
 
-		if (columnsObj[index].sort)
-			column.setSort(columnsObj[index].sort);
+		if (columnsObj[index].sort) {
+                    if (columnsObj[index].sort == 'asc')
+			column.setSort();
+          	    else if (columnsObj[index].sort == 'desc')
+                        column.setSort(true);
+                }
 
 		columns.push(column);		
 	}
